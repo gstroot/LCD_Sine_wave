@@ -1,12 +1,13 @@
 /*
-  LiquidCrystal Library - Blink
+  LiquidCrystal Library - Sine wave magic
 
+ Demonstrates the use a 16x2 LCD display.  The LiquidCrystal
  library works with all LCD displays that are compatible with the
  Hitachi HD44780 driver. There are many of them out there, and you
  can usually tell them by the 16-pin interface.
 
- This sketch prints "Hello World!" to the LCD and makes the
- cursor block blink.
+ This sketch prints "Moving sine" to the first line of the LCD and
+ on the second line shows a moving sine wave created by block characters.
 
  The circuit:
  * LCD RS pin to digital pin 12
@@ -24,14 +25,14 @@
  by David A. Mellis
  library modified 5 Jul 2009
  by Limor Fried (http://www.ladyada.net)
- example added 9 Jul 2009
- by Tom Igoe
- modified 22 Nov 2010
- by Tom Igoe
+ example added 4 Jul 2016
+ by Greg Stroot
+ modified 4 Jul 2016
+ by Greg Stroot
 
  This example code is in the public domain.
+https://github.com/gstroot/Arduino-LCD-sine-wave
 
- http://www.arduino.cc/en/Tutorial/LiquidCrystalBlink
 
  */
 
@@ -43,6 +44,8 @@ LiquidCrystal lcd(2,3,4,5,6,7);
 
 //Create Sine Characters - limited to 8
 int modulonum=8;
+// Since there are 5 pixels in each character we need to modulo shift the characters
+// to see a sine wave
 int pixelperchar=5;
 
 byte p1[8] = {
