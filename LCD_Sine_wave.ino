@@ -32,8 +32,6 @@
 
  This example code is in the public domain.
 https://github.com/gstroot/Arduino-LCD-sine-wave
-
-
  */
 
 // include the library code:
@@ -47,6 +45,9 @@ int modulonum=8;
 // Since there are 5 pixels in each character we need to modulo shift the characters
 // to see a sine wave
 int pixelperchar=5;
+
+// Paste the excel spreadsheet column in
+// BETWEEN HERE
 
 byte p1[8] = {
 0b00110,
@@ -136,23 +137,22 @@ byte p8[8] = {
 0b10000,
 };
 
-
+// AND HERE
+// NOW DOWN TO BUSINESS!!!
 
 void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   
-//make sine characters
-lcd.createChar(0, p1);
-lcd.createChar(1, p2);
-lcd.createChar(2, p3);
-lcd.createChar(3, p4);
-lcd.createChar(4, p5);
-lcd.createChar(5, p6);
-lcd.createChar(6, p7);
-lcd.createChar(7, p8);
-
-
+  //make sine characters
+  lcd.createChar(0, p1);
+  lcd.createChar(1, p2);
+  lcd.createChar(2, p3);
+  lcd.createChar(3, p4);
+  lcd.createChar(4, p5);
+  lcd.createChar(5, p6);
+  lcd.createChar(6, p7);
+  lcd.createChar(7, p8);
 
   // Print a message to the LCD.
   lcd.setCursor(0,0);
@@ -168,6 +168,7 @@ lcd.createChar(7, p8);
   lcd.print(modulonum);
 }
 
+// START THE LOOP
 
 void loop() {
 //Move cursor to line 2
