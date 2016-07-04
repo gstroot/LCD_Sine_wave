@@ -178,11 +178,10 @@ for (int j = 0; j<modulonum; j++)
   //Iterate lines
   for (int i = 0; i<16; i++)
   {
-  lcd.setCursor(i,1);
-  lcd.write((i)*pixelperchar%modulonum+j);
-
+    lcd.setCursor(i,1);
+    lcd.write((i)*pixelperchar%modulonum+j);
   }
-    delay(200);
+  delay(200);
 }
 
 }
