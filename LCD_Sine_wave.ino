@@ -43,10 +43,13 @@ https://github.com/gstroot/Arduino-LCD-sine-wave
 LiquidCrystal lcd(2,3,4,5,6,7);
 
 //Create Sine Characters - limited to 8
+// Since we are limited to 8 characters we need to modulo shift the characters
 int modulonum=8;
-// Since there are 5 pixels in each character we need to modulo shift the characters
-// to see a sine wave
+// Since there are 5 pixels in each character each character must be shifted by 5
+// to see a sine wave. These are both used in the loop
 int pixelperchar=5;
+
+// The actual characters are created with the excel spreadsheet. All 8 characters can be copied in here.
 
 byte p1[8] = {
 0b00110,
@@ -137,24 +140,22 @@ byte p8[8] = {
 };
 
 
-
 void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   
-//make sine characters
-lcd.createChar(0, p1);
-lcd.createChar(1, p2);
-lcd.createChar(2, p3);
-lcd.createChar(3, p4);
-lcd.createChar(4, p5);
-lcd.createChar(5, p6);
-lcd.createChar(6, p7);
-lcd.createChar(7, p8);
+  //make sine characters
+  lcd.createChar(0, p1);
+  lcd.createChar(1, p2);
+  lcd.createChar(2, p3);
+  lcd.createChar(3, p4);
+  lcd.createChar(4, p5);
+  lcd.createChar(5, p6);
+  lcd.createChar(6, p7);
+  lcd.createChar(7, p8);
 
 
-
-  // Print a message to the LCD.
+  // Print a message to the LCD. Include some variables so we know why it may look mangled
   lcd.setCursor(0,0);
   lcd.print("Moving sine");
   delay(2000);
@@ -170,19 +171,18 @@ lcd.createChar(7, p8);
 
 
 void loop() {
-//Move cursor to line 2
-//iterate each timeslot
+//Move cursor to line 2 (we don't want to overwrite our message
+//iterate each timeslot with a waveform component.
 for (int j = 0; j<modulonum; j++)
-{
-  //Iterate lines
-  for (int i = 0; i<16; i++)
   {
-  lcd.setCursor(i,1);
-  lcd.write((i)*pixelperchar%modulonum+j);
-
-  }
+    //Iterate after every line completion to shift the wave
+    for (int i = 0; i<16; i++)
+    {
+      lcd.setCursor(i,1);
+      lcd.write((i)*pixelperchar%modulonum+j);
+    }
     delay(200);
-}
+  }
 
 }
 
