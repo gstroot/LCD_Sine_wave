@@ -10,12 +10,12 @@
  on the second line shows a moving sine wave created by block characters.
 
  The circuit:
- * LCD RS pin to digital pin 12
- * LCD Enable pin to digital pin 11
- * LCD D4 pin to digital pin 5
- * LCD D5 pin to digital pin 4
- * LCD D6 pin to digital pin 3
- * LCD D7 pin to digital pin 2
+ * LCD RS pin to digital pin 2
+ * LCD Enable pin to digital pin 3
+ * LCD D4 pin to digital pin 4
+ * LCD D5 pin to digital pin 5
+ * LCD D6 pin to digital pin 6
+ * LCD D7 pin to digital pin 7
  * LCD R/W pin to ground
  * 10K resistor:
    * ends to +5V and ground
@@ -41,13 +41,16 @@ https://github.com/gstroot/Arduino-LCD-sine-wave
 LiquidCrystal lcd(2,3,4,5,6,7);
 
 //Create Sine Characters - limited to 8
+// Since we are limited to 8 characters we need to modulo shift the characters
 int modulonum=8;
-// Since there are 5 pixels in each character we need to modulo shift the characters
-// to see a sine wave
+// Since there are 5 pixels in each character each character must be shifted by 5
+// to see a sine wave. These are both used in the loop
 int pixelperchar=5;
 
 // Paste the excel spreadsheet column in
 // BETWEEN HERE
+//=======
+// The actual characters are created with the excel spreadsheet. All 8 characters can be copied in here.
 
 byte p1[8] = {
 0b00110,
@@ -139,6 +142,7 @@ byte p8[8] = {
 
 // AND HERE
 // NOW DOWN TO BUSINESS!!!
+//=======
 
 void setup() {
   // set up the LCD's number of columns and rows:
@@ -155,6 +159,9 @@ void setup() {
   lcd.createChar(7, p8);
 
   // Print a message to the LCD.
+
+  // Print a message to the LCD. Include some variables so we know why it may look mangled
+
   lcd.setCursor(0,0);
   lcd.print("Moving sine");
   delay(2000);
@@ -171,19 +178,17 @@ void setup() {
 // START THE LOOP
 
 void loop() {
-//Move cursor to line 2
-//iterate each timeslot
+//Move cursor to line 2 (we don't want to overwrite our message
+//iterate each timeslot with a waveform component.
 for (int j = 0; j<modulonum; j++)
-{
-  //Iterate lines
-  for (int i = 0; i<16; i++)
   {
-    lcd.setCursor(i,1);
-    lcd.write((i)*pixelperchar%modulonum+j);
+    //Iterate after every line completion to shift the wave
+    for (int i = 0; i<16; i++)
+    {  lcd.setCursor(i,1);
+      lcd.write((i)*pixelperchar%modulonum+j);
+    }
+    delay(200);
   }
-  delay(200);
-}
-
 }
 
 
